@@ -5,6 +5,8 @@
 #DO NOT RUN THIS YOURSELF because Step 1 is it reformatting /dev/sda WITHOUT confirmation,
 #which means RIP in peace qq your data unless you've already backed up all of your drive.
 
+loadkeys de-latin1
+
 pacman -Sy --noconfirm dialog || { echo "Error at script start: Are you sure you're running this as the root user? Are you sure you have an internet connection?"; exit; }
 
 dialog --defaultno --title "DON'T BE A BRAINLET!" --yesno "This is an Arch install script that is very rough around the edges.\n\nOnly run this script if you're a big-brane who doesn't mind deleting your entire /dev/sda drive.\n\nThis script is only really for me so I can autoinstall Arch.\n\nt. Luke"  15 60 || exit
@@ -13,7 +15,7 @@ dialog --defaultno --title "DON'T BE A BRAINLET!" --yesno "Do you think I'm memi
 
 dialog --no-cancel --inputbox "Enter a name for your computer." 10 60 2> comp
 
-dialog --defaultno --title "Time Zone select" --yesno "Do you want use the default time zone(America/New_York)?.\n\nPress no for select your own time zone"  10 60 && echo "America/New_York" > tz.tmp || tzselect > tz.tmp
+dialog --defaultno --title "Time Zone select" --yesno "Do you want use the default time zone(Europe/Berlin)?.\n\nPress no for select your own time zone"  10 60 && echo "Europe/Berlin" > tz.tmp || tzselect > tz.tmp
 
 dialog --no-cancel --inputbox "Enter partitionsize in gb, separated by space (swap & root)." 10 60 2>psize
 
@@ -69,7 +71,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cat tz.tmp > /mnt/tzfinal.tmp
 rm tz.tmp
 mv comp /mnt/etc/hostname
-curl https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/testing/chroot.sh > /mnt/chroot.sh && arch-chroot /mnt bash chroot.sh && rm /mnt/chroot.sh
+curl https://raw.githubusercontent.com/callamaris/LARBS/master/testing/chroot.sh > /mnt/chroot.sh && arch-chroot /mnt bash chroot.sh && rm /mnt/chroot.sh
 
 
 dialog --defaultno --title "Final Qs" --yesno "Reboot computer?"  5 30 && reboot
